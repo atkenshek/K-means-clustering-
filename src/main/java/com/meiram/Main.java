@@ -206,13 +206,13 @@ public class Main {
         return docs.get(docIndex).get(word) == null ? 0 : docs.get(docIndex).get(word);
     }
 
-    public static Double getIDF(String word) {
+    public static Double calculateIDF(String word) {
         Double numOfDocuments = Double.valueOf(documentsWordCount.size());
         Double wordCountWithUnique = Double.valueOf(wordsWithUniqueCount.get(word));
         return Math.log(numOfDocuments / wordCountWithUnique);
     }
 
-    public static Double getTF(Integer wordCountInDocument, Integer allDocumentWordsCount) {
+    public static Double calculateTF(Integer wordCountInDocument, Integer allDocumentWordsCount) {
         return Double.valueOf(wordCountInDocument) / Double.valueOf(allDocumentWordsCount);
     }
 
@@ -236,9 +236,9 @@ public class Main {
         for(Map.Entry<String, Integer> word : sortedWords.entrySet()) {
             sortedWordsAsList.add(word.getKey());
             List<Double> vector = new ArrayList<>();
-            Double IDF_word = getIDF(word.getKey());
+            Double IDF_word = calculateIDF(word.getKey());
             for(int i = 0; i < documentsWordCount.size(); i++) {
-                Double TF_word = getTF(getWordCountInDocument(i, word.getKey()),documentsWordCount.get(i));
+                Double TF_word = calculateTF(getWordCountInDocument(i, word.getKey()),documentsWordCount.get(i));
                 out.write(String.valueOf(IDF_word * TF_word) + " ");
                 vector.add(IDF_word * TF_word);
             }
